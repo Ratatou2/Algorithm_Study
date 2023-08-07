@@ -85,3 +85,18 @@ for(int i=4, j=0; i<line.length; i+=2, j++) {
 */
 
 // 그리고 좀 더 개선하고 싶으면 거리를 구하는 abs가 지금 두군데서 쓰이고 있으니 메서드로 따로 빼도 됨
+
+// 아래처럼 token을 써도 될듯 (깔끔함)
+/*
+cx = Integer.parseInt(st.nextToken());
+cy = Integer.parseInt(st.nextToken());
+hx = Integer.parseInt(st.nextToken());
+hy = Integer.parseInt(st.nextToken());
+
+customers = new int[2][N];
+visited = new boolean[N];
+for(int i = 0; i< N; i++) {
+	customers[0][i] = Integer.parseInt(st.nextToken());
+	customers[1][i] = Integer.parseInt(st.nextToken());
+}
+*/
