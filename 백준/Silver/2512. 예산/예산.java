@@ -27,6 +27,16 @@
 - min, max 예산을 조절하며 평균치를 조금씩 조절해야할듯하다
 
 [보완점]
+- UpperBound를 알고 적용하는게 더 나을 것 같음
+- 범위 지정을 avg(평균)으로 옮기면 탐색 속도가 훨씬 빠르다
+- 초기 컨셉
+    if (sum <= M) minBudget++;
+    else maxBudget--;
+- 변경 후
+    if (sum <= M) minBudget = avgBudget + 1;
+    else maxBudget = avgBudget;
+
+- 공부하다 알았는데 UpperBound / LowerBound는 그냥 일종의 공식이었네...
 
 */
 
@@ -34,7 +44,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -67,15 +76,14 @@ public class Main {
                 for (int i = 0; i < N; i++) {
                     if (M < sum) break;
                     int currentBudget = budgets[i];
-                    int temp = currentBudget - avgBudget;
 
                     // 예산이 남으면, 예산 요청만큼만 할당한다
-                    if (temp < 0) sum += currentBudget;
+                    if (currentBudget < avgBudget) sum += currentBudget;
                     else sum += avgBudget;
                 }
 
-                if (sum <= M) minBudget++;  // 할당한 예상 총합이 전체 자금보다 작으면 최소 예산을 올려 평균치를 높인다
-                else maxBudget--;  // 할당한 예산 총합이 전체 자금보다 높으면 최대 예상을 낮춰 평균치를 낮춘다
+                if (sum <= M) minBudget = avgBudget + 1;  // 할당한 예상 총합이 전체 자금보다 작으면 최소 예산을 올려 평균치를 높인다
+                else maxBudget = avgBudget - 1;  // 할당한 예산 총합이 전체 자금보다 높으면 최대 예상을 낮춰 평균치를 낮춘다
             }
         }
 
