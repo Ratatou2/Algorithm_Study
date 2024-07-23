@@ -29,7 +29,8 @@
 - 로직을 이해했으니 나머지(% 2)로 값을 구해도 되지만 DP답게 풀어봅시당
 
 [보완점]
-
+- 성능 개선을 위해선 1000까지 만들어둘게 아니라 그냥 N까지만 만들어두면 되겠죠?
+- 또한 단순히 배열을 N+1로만 해두면 배열의 첫번째, 두번째에 값을 할당하는 코드가 Array의 범위를 넘어서 터질테니까 이 부분도 신경써줘야한다
 */
 
 
@@ -42,7 +43,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        String[] rocks = new String[1000 + 1];
+        String[] rocks = new String[Math.max(N + 1, 3)];  
 
         // 인덱스는 게임 숫자만큼 있어야 하니 0부터 시작이 아닌 1부터 시작임을 유의
         // 아님 항상 N-1로 진행하도록 세팅해두어야 한다
