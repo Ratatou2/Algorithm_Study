@@ -29,8 +29,10 @@ not (~) : 원래 비트와 반대로
 2 + 4 + 8 = 14인 셈
 
 [보완점]
-
-
+- 와 XOR 두번하면 자기 자신이 되는 것을 고려해서 반복 횟수를 줄이는 C % 2로 분기 나누는 방법도 있었음 ㄷㄷ
+- XOR 연산은 다음과 같은 성질을 가지고 있다
+    - a XOR a = 0  // 자기 자신과는 전부 똑같으니까 서로 달라야 1이 나오는 XOR 입장에서는 저랟로 1이 나올 수가 없음
+    - a XOR 0 = a  // 0은 그냥 0이니까, 자기 자신의 1인 부분은 전부 1로 나오고 0은 둘다 0일테니 0이 나와서 자기자신 그대로 도출됨
 */
 
 
@@ -48,10 +50,13 @@ public class Main {
         int B = Integer.parseInt(st.nextToken());
         int C = Integer.parseInt(st.nextToken());
 
-        for (int i = 0; i < C; i++) {
-            A = A ^ B;
-        }
+//        for (int i = 0; i < C; i++) {
+//            A = A ^ B;
+//        }
+//        System.out.println(A);
 
-        System.out.println(A);
+        // XOR 두번하면 자기 자신
+        if (C % 2 == 0) System.out.print(A);
+        else System.out.print(A^B);
     }
 }
