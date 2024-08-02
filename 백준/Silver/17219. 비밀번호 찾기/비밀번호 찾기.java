@@ -24,30 +24,30 @@
 - 오히려 문자열 집합을 Set으로 풀었어야 했는데...
 
 [보완점]
-
+- String.split() 보다 StringTokenizer가 더 효율적, StringTokenizer를 쓰자
 */
 
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        String[] temp = br.readLine().split(" ");
-        int N = Integer.parseInt(temp[0]);
-        int M = Integer.parseInt(temp[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
         Map<String, String> siteNpassword = new HashMap<>();
 
         for (int i = 0; i < N; i++) {
-            temp = br.readLine().split(" ");
-            siteNpassword.put(temp[0], temp[1]);
+            st = new StringTokenizer(br.readLine());
+            siteNpassword.put(st.nextToken(), st.nextToken());
         }
 
         for (int i = 0; i < M; i++) {
