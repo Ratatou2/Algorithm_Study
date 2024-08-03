@@ -29,7 +29,7 @@
     - 문제는 이모티콘을 '몇 번 썼느냐'니까 이 이모티콘까지 카운트 해야하는 것으로 이해함
 
 [보완점]
-
+- HashSet은 .clear() 쓰면 다 비울 수 있음 매번 새로 선언 안해도 됨
  */
 
 import java.io.BufferedReader;
@@ -48,9 +48,9 @@ public class Main {
         for (int i = 0; i < N; i++) {
             String input = br.readLine();
 
-            // ENTER 발생하면 이전 기록과 상관없이 또다시 이모티콘 인사 가능
+            // ENTER 발생하면 이전 기록과 상관없이 또다시 이모티콘 인사 가능 (set 초기화)
             if (input.equals("ENTER")) {
-                chatRecord = new HashSet<>();
+                chatRecord.clear();
             } else if (!chatRecord.contains(input)) {
                 chatRecord.add(input);
                 count++;
