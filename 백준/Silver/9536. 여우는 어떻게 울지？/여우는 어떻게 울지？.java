@@ -28,8 +28,12 @@
 - 근데 map이라 순서 보장 안돼서 그냥 리스트 사용함
 
 [보완점]
-
-
+- 일단 StringTokenizer는 String을 다시 집어 넣을수도 있다.
+- 그러니까 유저 인풋이어야만 그걸 넣을 수 있는게 아니다
+    String temp = "what the HhHHH";
+    st = new StringTokenizer(temp);   // 이처럼 해버리면 된다
+- 그마저도 3번째 요소가 필요하면 그냥 st.next() 두번 해버려서 가져오면 되고!
+- 이렇게 바꾸면 소요시간이 더 줄어들려나?
 */
 
 
@@ -59,9 +63,14 @@ public class Main {
                 String temp = br.readLine();
 
                 if (temp.equals("what does the fox say?")) break;
-                String[] currentSound = temp.split(" ");
+//                String[] currentSound = temp.split(" ");
+//                specificSound.add(currentSound[2]);
 
-                specificSound.add(currentSound[2]);
+                // 이렇게 String을 다시 StringTokenizer에 밀어넣고는 시도 해도 된다
+                st = new StringTokenizer(temp);
+                st.nextToken();
+                st.nextToken();
+                specificSound.add(st.nextToken());
             }
 
             // 다른 동물 울음소리이면 추가 X
