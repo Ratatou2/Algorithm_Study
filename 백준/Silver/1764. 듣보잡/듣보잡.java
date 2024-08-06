@@ -18,7 +18,7 @@
 [구현방법]
 - 그냥 뭐... Set에 밀어넣고 중복되는거 있나 보고 없으면 정답에 추가하고
 - 나중에 정렬하기
-
+- 아 출력할게 여러줄이면 StringBuilder를 쓰자 꽤 차이 많이 난다
 [보완점]
 
 */
@@ -32,7 +32,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
+        StringBuilder sb = new StringBuilder();
+        
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
         Set<String> neverHeard = new HashSet<String>();
@@ -51,9 +52,11 @@ public class Main {
 
         Collections.sort(neverheardNeverSeen);
 
-        System.out.println(neverheardNeverSeen.size());
+        sb.append(neverheardNeverSeen.size()).append("\n");
         for (String temp : neverheardNeverSeen) {
-            System.out.println(temp);
+            sb.append(temp).append("\n");
         }
+
+        System.out.println(sb);
     }
 }
