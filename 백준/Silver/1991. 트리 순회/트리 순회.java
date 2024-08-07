@@ -61,26 +61,31 @@ public class Main {
         }
     }
 
+    // 전위 순회 (root 먼저 탐색)
     static void preorder(Node node) {
         if (node == null) return;
 
+        // root 먼저 추가
         sb.append(node.value);
-        // 왼쪽부터 탐색
-        preorder(node.left);
+        preorder(node.left);  // 그 다음엔 왼쪽부터
         preorder(node.right);
     }
 
+    // 중위 순회 (왼쪽부터 방문 후 root 탐색)
     static void inorder(Node node) {
         if (node == null) return;
 
+        // 왼쪽으로 최대한 내려감
         inorder(node.left);
         sb.append(node.value);
         inorder(node.right);
     }
 
+    // 후위 순회 (하위부터 방문 후 root 방문)
     static void postorder(Node node) {
         if (node == null) return;
 
+        // 하위 모든 노드 방문 후에 추가
         postorder(node.left);
         postorder(node.right);
         sb.append(node.value);
