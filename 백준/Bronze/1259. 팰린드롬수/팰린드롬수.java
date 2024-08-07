@@ -24,7 +24,9 @@
 
 
 [보완점]
-
+- StringBuffer의 revuerse()를 쓰면 문자열을 손쉽게 뒤집을 수 있다는 것을 아시는가...?
+- 미뗬다 아 그리고 StringBuilder 또한 그렇게 사용할 수 있다!!
+- 파이썬의 리스트와 같은 효과!!! 아주 간편할듯하다...
 */
 
 
@@ -33,6 +35,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+
+        while (true) {
+            String input = br.readLine();
+            if (input.equals("0")) break;
+            String reverseInput = new StringBuilder(input).reverse().toString();
+
+            sb.append(input.equals(reverseInput) ? "yes" : "no").append("\n");
+        }
+
+        System.out.println(sb);
+    }
+
+
+    /* // 기존풀이 방법
     static boolean isPalindrom(String input) {
         int length = input.length();
 
@@ -57,4 +76,5 @@ public class Main {
 
         System.out.println(sb);
     }
+    */
 }
