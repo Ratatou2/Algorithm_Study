@@ -19,7 +19,7 @@
 - 흠.. 이거 입력값이 끝난 줄 어떻게 알지? (난이도가 쉬운 문제를 풀더라도 이런 자잘한 고민들을 하는건 꽤 도움이 됨. 몰랐던걸 알게됨!)
 
 [보완점]
-
+- while문 시작할 때마다 readLine하면 되는 것이었다!
 
 */
 
@@ -32,12 +32,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
-        String input = br.readLine();
+        String input;
 
-        while (input != null) {
+        // while문 시작과 readLine
+        while ((input = br.readLine()) != null) {
             sb.append(input).append("\n");
-
-            input = br.readLine();
         }
 
         System.out.println(sb);
