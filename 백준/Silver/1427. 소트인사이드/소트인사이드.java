@@ -18,6 +18,7 @@
 - 근데 그냥 split하는 것보다 빠를까? 궁금
 - 시도 해보고픈게 생겼다
     1. String을 .split("") 써서 배열로 자르고, 냅다 for문 돌려서 출력하기
+        - 메모리 : 14280, 시간 : 104
     2. String을 .split("") 써서 배열로 자르고, String.join문 써서 붙여 출력하기
     3. String을 .charAt()을 써서 하나씩 배열에 넣고, 냅다 for문 돌려서 출력하기
     4. String을 .charAt()을 써서 하나씩 char 배열에 넣고, new String() 써서 하나의 문자열로 출력하기
@@ -37,29 +38,29 @@ import java.util.Comparator;
 
 public class Main {
     // 1. String을 .split("") 써서 배열로 자르고, 냅다 for문 돌려서 출력하기
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-
-        String[] input = br.readLine().split("");
-        Arrays.sort(input, Comparator.reverseOrder());
-
-        for (String temp : input) {
-            sb.append(temp);
-        }
-
-        System.out.println(sb);
-    }
-//
-//    // 2. String을 .split("") 써서 배열로 자르고, String.join문 써서 붙여 출력하기
 //    public static void main(String[] args) throws IOException {
 //        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        StringBuilder sb = new StringBuilder();
 //
 //        String[] input = br.readLine().split("");
 //        Arrays.sort(input, Comparator.reverseOrder());
 //
-//        System.out.println(String.join("", input));
+//        for (String temp : input) {
+//            sb.append(temp);
+//        }
+//
+//        System.out.println(sb);
 //    }
+    
+    // 2. String을 .split("") 써서 배열로 자르고, String.join문 써서 붙여 출력하기
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String[] input = br.readLine().split("");
+        Arrays.sort(input, Comparator.reverseOrder());
+
+        System.out.println(String.join("", input));
+    }
 //
 //    // 3. String을 .charAt()을 써서 하나씩 char 배열에 넣고, 냅다 for문 돌려서 출력하기
 //    public static void main(String[] args) throws IOException {
