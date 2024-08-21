@@ -25,6 +25,8 @@
 - map.compute("key", (k, v) -> (v == null) ? 1 : v + 1);
 - 입력받는 break point를 if (input.isEmpty() || input == null) break;로 수정하는게 좀 더 적합해보인다
 - 궁금한게 getOrDefault를 쓰면 더 느릴까? (compute 102560kb, 804ms)
+- 어...라...? compute가 더 빠른디? Map 그냥 두번 조회하는게 더 빠른 것 같다!
+- 조건이 똑같을 때, getOrDefault가 더 빠른듯하다 그냥 한번 슥 보는게 낫다 이건것 같네
 
 [입력값]
 Red Alder
@@ -83,7 +85,7 @@ public class Main {
             // 값이 있으면 가져와서 + 1을 하고 없으면 0을 가져와서 1을 넣어줄 수 있도록 셋팅
             // compute를 쓰는게 더 깔끔하다
             // trees.put(input, trees.getOrDefault(input, 0) + 1);
-            // trees.compute(input, (k, v) -> (v == null) ? 1 : v + 1);
+//            trees.compute(input, (k, v) -> (v == null) ? 1 : v + 1);
             trees.put(input, trees.getOrDefault(input, 0) + 1);
             treeCount++;
         }
