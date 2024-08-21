@@ -23,6 +23,8 @@
 [보완점]
 - trees.put(input, trees.getOrDefault(input, 0) + 1); 보단,
 - map.compute("key", (k, v) -> (v == null) ? 1 : v + 1);
+- 입력받는 break point를 if (input.isEmpty() || input == null) break;로 수정하는게 좀 더 적합해보인다
+- 궁금한게 getOrDefault를 쓰면 더 느릴까? (compute 102560kb, 804ms)
 
 [입력값]
 Red Alder
@@ -70,19 +72,24 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        Map<String, Double> trees = new TreeMap<>();
+        Map<String, Integer> trees = new TreeMap<>();
         String input;
         int treeCount = 0;
-        while ((input = br.readLine()) != null) {
+        while (true) {
+            input = br.readLine();
+
+            if (input == null || input.length() == 0 || input.isEmpty()) break;
+
             // 값이 있으면 가져와서 + 1을 하고 없으면 0을 가져와서 1을 넣어줄 수 있도록 셋팅
             // compute를 쓰는게 더 깔끔하다
             // trees.put(input, trees.getOrDefault(input, 0) + 1);
-            trees.compute(input, (k, v) -> (v == null) ? 1 : v + 1);
+            // trees.compute(input, (k, v) -> (v == null) ? 1 : v + 1);
+            trees.put(input, trees.getOrDefault(input, 0) + 1);
             treeCount++;
         }
 
-        for (Map.Entry<String, Double> tree : trees.entrySet()) {
-            double ratio = tree.getValue() / treeCount * 100;
+        for (Map.Entry<String, Integer> tree : trees.entrySet()) {
+            double ratio = (double) tree.getValue() / treeCount * 100;
             sb.append(tree.getKey()).append(" ").append(String.format("%.4f", ratio)).append("\n");
         }
 
