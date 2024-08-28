@@ -34,21 +34,21 @@
 ## 진행 순서
 
 ### 진행 중
-[그리디](https://www.acmicpc.net/workbook/view/14577)
-[이분탐색](https://www.acmicpc.net/workbook/view/14576)
-[다이나믹 프로그래밍](https://www.acmicpc.net/workbook/view/14578)
-[비트마스킹](https://www.acmicpc.net/problemset?sort=ac_desc&tier=1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2C10&algo=14&algo_if=and)
-[해시를 사용한 집합과 맵](https://www.acmicpc.net/problem/tag/136)
-[트리](https://www.acmicpc.net/problemset?sort=ac_desc&algo=120)
-[BFS/DFS/다익스트라](https://www.acmicpc.net/workbook/view/14583)
+- [그리디](https://www.acmicpc.net/workbook/view/14577)
+- [이분탐색](https://www.acmicpc.net/workbook/view/14576)
+- [다이나믹 프로그래밍](https://www.acmicpc.net/workbook/view/14578)
+- [비트마스킹](https://www.acmicpc.net/problemset?sort=ac_desc&tier=1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2C10&algo=14&algo_if=and)
+- [해시를 사용한 집합과 맵](https://www.acmicpc.net/problem/tag/136)
+- [트리](https://www.acmicpc.net/problemset?sort=ac_desc&algo=120)
+- [BFS/DFS/다익스트라](https://www.acmicpc.net/workbook/view/14583)
 
 ### 진행예정
-[재귀/분할정복/백트래킹](https://www.acmicpc.net/workbook/view/14581)
-[구현/시뮬레이션](https://www.acmicpc.net/workbook/view/12525)
-[완전탐색](https://www.acmicpc.net/workbook/view/14575)
-[문자열/KMP/트라이/접미사](https://www.acmicpc.net/workbook/view/14580)
-[투포인터](https://www.acmicpc.net/workbook/view/14579)
-[수정렬+위상정렬](https://www.acmicpc.net/workbook/view/14582)
+- [재귀/분할정복/백트래킹](https://www.acmicpc.net/workbook/view/14581)
+- [구현/시뮬레이션](https://www.acmicpc.net/workbook/view/12525)
+- [완전탐색](https://www.acmicpc.net/workbook/view/14575)
+- [문자열/KMP/트라이/접미사](https://www.acmicpc.net/workbook/view/14580)
+- [투포인터](https://www.acmicpc.net/workbook/view/14579)
+- [수정렬+위상정렬](https://www.acmicpc.net/workbook/view/14582)
 
 
 ## 일자 체크
