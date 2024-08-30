@@ -35,6 +35,9 @@
 - 한바퀴 다 돌았는데 전부다 사용처리가 되어있어? 그러면 한마리가 반복적으로 운 것이다
 - 이런 디테일을 잘 생각해 봐야하는디...
 
+- 배열로 만들어서 이전 문자 갯수와 비교해서 잘 세지고 있는지 체크해서 푸는 방법도 있다
+- 진짜 푸는 방법 겁나 다양하네...
+
 [입력값 : 출력값]
 quqacukqauackck : 2
 kcauq : -1
@@ -71,7 +74,7 @@ public class Main {
             boolean flag = false;
 
             for (int i = 0; i < soundCount; i++) {
-                // quack 처음부터 비교해서 같은 것을 찾으면, index를 +1해서 다음 것을 찾는다 
+                // quack 처음부터 비교해서 같은 것을 찾으면, index를 +1해서 다음 것을 찾는다
                 if (input[i] == quack[index]){
                     temp[tempIndex++] = i;
                     index++;
@@ -104,4 +107,44 @@ public class Main {
 
         System.out.println(answer);
     }
+
+//    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        // "quack"의 각 문자('q', 'u', 'a', 'c', 'k')가 몇 번 등장했는지 저장하기 위한 배열
+//        // quack[0]은 'q', quack[1]은 'u', ..., quack[4]은 'k'의 개수를 저장
+//        int[] quackCount = new int[5]; 
+//        char[] sounds = br.readLine().toCharArray();
+//        int result = 0;
+//
+//        for(char token : sounds) {
+//            // 현재 문자가 "quack"에서 몇 번째 인덱스에 있는지 찾음 ('q'는 0, 'u'는 1, ..., 'k'는 4)
+//            // 문자열에서 인덱스를 찾아버리는...
+//            int target = "quack".indexOf(token);
+//
+//            // 현재 문자가 'q'일 경우 (= 시작일 경우)
+//            if(token == 'q') {
+//                quackCount[0]++;  // 'q'의 개수를 증가시키고
+//                result = Math.max(result, quackCount[0]);  // 오리의 개수는 동시에 발생하는 'q'의 최대값으로 설정
+//            } else { // 'q'가 아닌 다른 문자일 경우 (= 나머지 문자들인지
+//                // 현재 문자가 나오기 전에, 이전 문자가 충분히 있지 않은 경우 오류 처리
+//                if(quackCount[target - 1] <= quackCount[target]) {
+//                    // 결과를 -1로 설정하고 루프 탈출
+//                    result = -1;
+//                    break;
+//                }
+//                
+//                quackCount[target]++;  // 현재 문자의 개수를 증가시킴
+//
+//                // 현재 문자가 'k'일 경우, 하나의 "quack"이 완료된 것이므로
+//                if (token == 'k') {
+//                    // "quack"이 완료되었으므로 각 문자의 개수를 1씩 감소
+//                    for (int idx = 0; idx < 5; idx++) quackCount[idx]--;
+//                }
+//            }
+//        }
+//
+//        // 반복문 종료 후, "quack"이 완전히 종료되지 않은 상태가 남아있는지 확인
+//        // quack 배열 중 어느 하나라도 0보다 크다면 -1을 출력
+//        System.out.println((quackCount[0] > 0 || quackCount[1] > 0 || quackCount[2] > 0 || quackCount[3] > 0) ? -1 : result);
+//    }
 }
