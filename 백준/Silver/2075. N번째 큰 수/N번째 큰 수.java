@@ -40,34 +40,104 @@
 - PQ는 기본적으로 최소 힙이기 때문에 Collections.reverseOrder() 옵션을 줘야한다
 - 아니 근데 짜고 보니까 결국 PQ도 인덱스로 못 가져오는데...?
 - 이럴거면 TreeSet도 reverse만 걸어뒀으면 더 빨랐겠는데?
+
+- 테스트 이후 결과 (동일한 조건 역정렬 + for문으로 탐색)
+    - 결과
+        - TreeSet : 382504kb, 1920ms
+        - PQ : 334216kb, 816ms
+    - 내가 간과했던 것이 PQ는 순차적 탐색에도 최악의 경우 소요시간은 logN라는 것이다
+    - 반면에 TreeSet은 순차적 탐색이니까 O(N)인 것
+    - PQ가 더 좋은 성능을 보였다
+
+- 여기에 좀 더 나아가서 PQ를 제대로 써봅시다
+- N개만 들어가는 최소힙을 만들고, 값이 입력들어올 때마다 갱신해주면 루트 노드가 N번째로 큰 숫자가 된다
+
 */
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         int N = Integer.parseInt(br.readLine());
-        PriorityQueue<Integer> pq = new PriorityQueue(Collections.reverseOrder());
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
 
             for (int j = 0; j < N; j++) {
-                pq.add(Integer.parseInt(st.nextToken()));
+                int num = Integer.parseInt(st.nextToken());
+
+                // 들어있는게 N개보다 작으면 일단 넣어준다
+                if (pq.size() < N) pq.add(num);
+                else {
+                    // N개보다 많으면 최솟값과 비교해서 넣어준다
+                    if (pq.peek() < num) {
+                        pq.poll();
+                        pq.add(num);
+                    }
+                }
             }
         }
 
-        for (int i = 0; i < pq.size(); i++) {
-            int temp = pq.poll();
-            if (i + 1 != N) continue;
-
-            System.out.println(temp);
-            return;
-        }
+        // 최소힙 구조니까, 루트 노드가 N번째로 큰 숫자이다
+        System.out.println(pq.peek());
     }
+
+
+    // TreeSet 사용
+//    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        StringTokenizer st;
+//        Set<Integer> treeSet = new TreeSet<Integer>(Collections.reverseOrder());
+//        int N = Integer.parseInt(br.readLine());
+//
+//        for (int i = 0; i < N; i++) {
+//            st = new StringTokenizer(br.readLine());
+//
+//            for (int j = 0; j < N; j++) {
+//                treeSet.add(Integer.parseInt(st.nextToken()));
+//            }
+//        }
+//
+//        int index = 1;
+//        for (Integer i : treeSet) {
+//            if (index == N) {
+//                System.out.println(i);
+//                return;
+//            }
+//
+//            index++;
+//        }
+//    }
+
+    // PQ 사용
+//    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        StringTokenizer st;
+//        int N = Integer.parseInt(br.readLine());
+//        PriorityQueue<Integer> pq = new PriorityQueue(Collections.reverseOrder());
+//
+//        for (int i = 0; i < N; i++) {
+//            st = new StringTokenizer(br.readLine());
+//
+//            for (int j = 0; j < N; j++) {
+//                pq.add(Integer.parseInt(st.nextToken()));
+//            }
+//        }
+//
+//        for (int i = 0; i < pq.size(); i++) {
+//            int temp = pq.poll();
+//            if (i + 1 != N) continue;
+//
+//            System.out.println(temp);
+//            return;
+//        }
+//    }
 }
