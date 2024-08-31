@@ -32,8 +32,14 @@
 - 근데 이거 List로 변환해야 가져올 수 있네
 
 [보완점]
-
-
+- 이거 PQ써도 된다 (PriorityQueue)
+- 오히려 PQ를 써야 더 효율적이다
+- 내부적으로 이미 정렬을 다 해주고, 최악의 탐색시간이 logN이기 때문임
+- PQ는 내부적으로 Heap으로 구현되어있음
+- Heap은 완전 이진 트리구조
+- PQ는 기본적으로 최소 힙이기 때문에 Collections.reverseOrder() 옵션을 줘야한다
+- 아니 근데 짜고 보니까 결국 PQ도 인덱스로 못 가져오는데...?
+- 이럴거면 TreeSet도 reverse만 걸어뒀으면 더 빨랐겠는데?
 */
 
 import java.io.BufferedReader;
@@ -45,19 +51,23 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        Set<Integer> treeSet = new TreeSet<Integer>();
         int N = Integer.parseInt(br.readLine());
+        PriorityQueue<Integer> pq = new PriorityQueue(Collections.reverseOrder());
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
 
             for (int j = 0; j < N; j++) {
-                treeSet.add(Integer.parseInt(st.nextToken()));
+                pq.add(Integer.parseInt(st.nextToken()));
             }
         }
 
-        List<Integer> transformTreeSet = new ArrayList<Integer>(treeSet);
+        for (int i = 0; i < pq.size(); i++) {
+            int temp = pq.poll();
+            if (i + 1 != N) continue;
 
-        System.out.println(transformTreeSet.get(transformTreeSet.size() - N));
+            System.out.println(temp);
+            return;
+        }
     }
 }
