@@ -32,7 +32,7 @@ import java.util.TreeMap;
 [보완점]
 - while 문 조건에 중단 조건을 걸려면 아래와 같이 작성해서 넣어야한다
     - while ((input = br.readLine()) != null)
-
+- 예외처리 때문에 터졌음... 밑에 기술해두었다
 
 
 [입력 값]
@@ -63,6 +63,10 @@ public class Main {
 
         String input;
         while ((input = br.readLine()) != null) {
+            // 이 부분 때문에 56%에서 계속 터졌다
+            // 모르긴 몰라도 빈줄로 입력이 들어올 수가 있나?
+            // 근데 '글'에 적어도 알파벳이 한개 이상 있다 이지 '한 줄'에 알파벳이 적어도 한줄 있다는 아니고 공백과 알파벳으로 이루어졌다고 했으니 가능성은 있다
+            // if (input == null || input.equals("")) break;
 
             for (int i = 0; i < input.length(); i++) {
                 char currentChar = input.charAt(i);
