@@ -19,18 +19,19 @@
 
 [보완점]
 - 자릿수 때문에 int는 터질지도?
+- StringTokenizer 쓰고, 변환 과정 수정하면 좀 더 빨라질까...?
 */
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String[] ABCD = br.readLine().split(" ");
-
-        System.out.println(Long.parseLong(ABCD[0] + ABCD[1]) + Long.parseLong(ABCD[2] + ABCD[3]));
+        System.out.println(Long.parseLong(st.nextToken() + st.nextToken()) + Long.parseLong(st.nextToken() + st.nextToken()));
     }
 }
