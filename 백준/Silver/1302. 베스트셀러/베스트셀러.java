@@ -1,6 +1,6 @@
 /*
 [백준]
-
+1302, 베스트셀러
 
 [문제파악]
 - 김형택은 탑문고의 직원이다.
@@ -24,6 +24,9 @@
 - 아 for문 돌려서 max 값 찾은 다음, 리스트에 추가 후 정렬해서 사전적 0 번째 인덱스 값을 찾는게 낫겠어
 - 더 효율적인 방법은 다른 코드를 봐보자 (근데 살펴보니 11804kb 64ms로 5등정도 나옴 나름 효율적인 편! ㅎㅎ)
 - 근데 이제 TreeMap 구조를 써가지고 자동정렬이란 기능이 들어가니 유용하게 써먹어보자
+- 방식은 똑같이 가되 Hash Map 쓰고 for문 한번 돌려보자 어떤게 더 효율적일지
+- TreeMap이 근사한 차이로 쥐톨만큼 더 빠르다
+- 둘의 큰 차이는 없는 편임
 
 [보완점]
 
@@ -32,9 +35,37 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class Main {
+public class BOJ_1302_베스트셀러 {
+//    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        Map<String, Integer> bestSeller = new HashMap<>();
+//
+//        int N = Integer.parseInt(br.readLine());
+//
+//        for (int i = 0; i < N; i++) {
+//            String bookName = br.readLine();
+//            bestSeller.put(bookName, bestSeller.getOrDefault(bookName, 0) + 1);
+//        }
+//
+//        // Collections를 쓰면 max를 쓸수 있다!?!?!?
+//        int maxCount = Collections.max(bestSeller.values());
+//        List<String> temp = new ArrayList<>();
+//        for (Map.Entry<String, Integer> Entry : bestSeller.entrySet()) {
+//            // 일단 TreeMap 이기 때문에 정렬되어 있는 상태이고 그렇기 때문에 첫번째 만난 친구가 정답이다
+//            if (Entry.getValue() == maxCount) {
+//                temp.add(Entry.getKey());
+//            }
+//        }
+//
+//        Collections.sort(temp);
+//        System.out.println(temp.get(0));
+//    }
+
+    // TreeMap 구조
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Map<String, Integer> bestSeller = new TreeMap<>();
