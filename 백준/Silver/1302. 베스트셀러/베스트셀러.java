@@ -22,7 +22,8 @@
 - 이거 맵 써서 계산하고, Comparable? 그거 걸면 쉽게 풀 수 있을 것 같은디
 - 와... Collections.max(bestSeller.values()) 쓰면 Map의 value 중에 가장 큰 수 찾아다준다...
 - 아 for문 돌려서 max 값 찾은 다음, 리스트에 추가 후 정렬해서 사전적 0 번째 인덱스 값을 찾는게 낫겠어
-- 더 효율적인 방법은 다른 코드를 봐보자
+- 더 효율적인 방법은 다른 코드를 봐보자 (근데 살펴보니 11804kb 64ms로 5등정도 나옴 나름 효율적인 편! ㅎㅎ)
+- 근데 이제 TreeMap 구조를 써가지고 자동정렬이란 기능이 들어가니 유용하게 써먹어보자
 
 [보완점]
 
@@ -45,15 +46,14 @@ public class Main {
             bestSeller.put(bookName, bestSeller.getOrDefault(bookName, 0) + 1);
         }
 
+        // Collections를 쓰면 max를 쓸수 있다!?!?!?
         int maxCount = Collections.max(bestSeller.values());
-        List<String> temp = new ArrayList<>();
         for (Map.Entry<String, Integer> Entry : bestSeller.entrySet()) {
+            // 일단 TreeMap 이기 때문에 정렬되어 있는 상태이고 그렇기 때문에 첫번째 만난 친구가 정답이다
             if (Entry.getValue() == maxCount) {
-                temp.add(Entry.getKey());
+                System.out.println(Entry.getKey());
+                return;
             }
         }
-        
-        Collections.sort(temp);
-        System.out.println(temp.get(0));
     }
 }
