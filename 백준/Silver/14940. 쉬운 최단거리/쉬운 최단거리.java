@@ -87,12 +87,12 @@ public class Main {
 
         for (int row = 0; row < X; row++) {
             for (int col = 0; col < Y; col++) {
-                int temp = recordMap[row][col];
+                // 땅인데 방문한 적이 없다면 -1로 표기
+                if (map[row][col] == 1 && !isVisitied[row][col]) recordMap[row][col] = -1;
 
-                if (map[row][col] == 1 && !isVisitied[row][col]) temp = -1;
-
-                sb.append(temp).append(" ");
+                sb.append(recordMap[row][col]).append(" ");
             }
+            
             sb.append("\n");
         }
 
