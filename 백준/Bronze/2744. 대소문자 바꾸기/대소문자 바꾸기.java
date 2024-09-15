@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 - 일단 Character에 toUpperCase, toLowerCase가 있다!! 와!!!
 - 더군다나 isUpperCase로 대문자로 체크할 수 있음!! 와!!!!
 - 이거로 쓰면 한줄로 가능할듯
+
 */
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -33,13 +34,25 @@ public class Main {
         for (int i = 0; i < input.length(); i++) {
             char curChar = input.charAt(i);
 
-            if ('a' <= curChar && curChar <= 'z') {
-                sb.append(Character.toUpperCase(curChar));
-            } else if ('A' <= curChar && curChar <= 'Z') {
-                sb.append(Character.toLowerCase(curChar));
-            }
+            sb.append(Character.isUpperCase(curChar) ? Character.toLowerCase(curChar) : Character.toUpperCase(curChar));
         }
 
         System.out.println(sb);
     }
+
+    // char 범위 값으로 대문자, 소문자 체크하는 방식
+//    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        StringBuilder sb = new StringBuilder();
+//        String input = br.readLine();
+//        for (int i = 0; i < input.length(); i++) {
+//            char curChar = input.charAt(i);
+//            
+//            if ('a' <= curChar && curChar <= 'z') {
+//                sb.append(Character.toUpperCase(curChar));
+//            } else if ('A' <= curChar && curChar <= 'Z') {
+//                sb.append(Character.toLowerCase(curChar));
+//            }
+//        }
+//    }
 }
