@@ -42,6 +42,18 @@
 - 아 근데 equals를 할 때, 길이 100,000짜리의 문자열 전체를 비교하는 것과 절반까지만 비교하는 것은 시간적으로 벌써 2배차이니까 이건 해볼법하다
 - for문으로 짜면 최악의 경우, O(N)이지만, 첫번째 charAt(0) == charAt(length())에서 틀려버려서 return 하면 O(1)일 수 있으니
 
+- 원일을 찾았다. 원인은 일치 안한 곳을 찾았으면 해당 위치를 지워보고 비교해봤으면 거기서 끝내면 된다는 것이다
+- 즉, 굳이 나머지도 다 비교해보는 코드였는데, 불일치 했으면 나머지를 다 지켜보고 있을 필요가 없었음!
+- 따라서 불일치 if문을 타게 된다음 return true가 아니라면 무조건 return false 해버리면 된다
+
+- 근데 이러면 또 equals랑 실제로 비교해보고 싶넹 ㅎ
+- charAt() : 56948kb 256ms
+- equals : 85692kb 300ms
+- 아무리 둘다 O(N)이더라도 문자열이 길어질수록 전체를 다 비교하는 equals 쪽이 더 비효율적인가 보다
+
+- deleteCharAt 또한 O(N)인데 줄여보자!
+
+
 7
 abba
 summuus
@@ -60,6 +72,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
+    // charAt ver
     static boolean isPalindrome(String str) {
         for (int i = 0; i < str.length() / 2; i++) {
             if (str.charAt(i) != str.charAt(str.length() - 1 - i)) return false;
@@ -68,6 +81,33 @@ public class Main {
         return true;
     }
 
+    static boolean isPalindrome(String str, int index) {
+        int left = 0;
+        int right = str.length() - 1;
+        boolean isDel = false;
+
+        for (int i = 0; i < str.length() / 2; i++) {
+            if (!isDel && (left + i) == index) {
+                left += 1;
+                isDel = true;
+            }
+
+            if (!isDel && (right - i) == index) {
+                right -= 1;
+                isDel = true;
+            }
+
+            if (str.charAt(left + i) != str.charAt(right - i)) return false;
+        }
+
+        return true;
+    }
+
+    // equals ver
+//    static boolean isPalindrome(String str) {
+//        return str.equals(new StringBuilder(str).reverse().toString());
+//    }
+
     static boolean isSimilarPalindrome(String s) {
         int leftIndex = 0;
         int rightIndex = s.length() - 1;
@@ -75,14 +115,11 @@ public class Main {
         while(leftIndex < rightIndex) {
             if (s.charAt(leftIndex) != s.charAt(rightIndex)) {
                 // 일치 안한 자리를 지워본다 (왼쪽, 오른쪽 각각)
-                String delLeft = new StringBuilder(s).deleteCharAt(leftIndex).toString();
-                String delRight = new StringBuilder(s).deleteCharAt(rightIndex).toString();
-
                 // 각각의 회문을 비교한다
-                if (isPalindrome(delLeft) || isPalindrome(delRight)) {
+                if (isPalindrome(s, leftIndex) || isPalindrome(s, rightIndex)) {
                     return true;
                 }
-                
+
                 return false;
             }
 
