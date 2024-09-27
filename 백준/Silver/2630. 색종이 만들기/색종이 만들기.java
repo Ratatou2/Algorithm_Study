@@ -29,7 +29,7 @@
 - 아잇!!! 문제 똑바로 읽어야지 흰색도 세야한단다 아오
 
 [보완점]
-
+- 개선한다면 색상을 두개를 각각 세는게 아니라 첫번째 칸을 기준으로 잡고 해당 색과 다르면 break;해도 된다
 
 8
 1 1 0 0 0 0 1 1
@@ -64,28 +64,28 @@ public class Main {
         }
 
         // 현재 종이의 색상을 확인한다
-        int countWhite = 0;
-        int countBlue = 0;
+        boolean mainColor = paper[x][y];
+        boolean isAllSame = true;
         for (int i = x; i < x + N; i++) {
             for (int j = y; j < y + N; j++) {
-                if (0 < countBlue && 0 < countWhite) break;  // 2가지 색상 다 사용되었다면 더 볼 것없이 4등분하면 된다
-
-                if(paper[i][j]) countBlue++;
-                else countWhite++;
+                if (mainColor != paper[i][j]) {
+                    isAllSame = false;
+                    break;
+                }
             }
         }
 
         // 칠해진 색종이 확인
-        if (countWhite == N * N) {
-            countWhitePaper++;
-            return;
-        } else if (countBlue == N * N) {
-            countBluePaper++;
+        if (isAllSame) {
+            if (mainColor) countBluePaper++;
+            else countWhitePaper++;
+            
             return;
         }
 
         // 색종이를 다시 4등분 한다
         int halfN = N / 2;
+        
         splitPaper(x, y, halfN);
         splitPaper(x, y + halfN, halfN);
         splitPaper(x + halfN, y, halfN);
@@ -117,6 +117,7 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
+
             for (int j = 0; j < N; j++) {
                 paper[i][j] = st.nextToken().equals("1");
             }
