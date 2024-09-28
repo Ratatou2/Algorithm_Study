@@ -1,6 +1,6 @@
 /*
 [백준]
-
+10987, 모음의 개수
 
 [문제파악]
 - 알파벳 소문자로만 이루어진 단어가 주어진다.
@@ -19,6 +19,7 @@
 - 즉, aeiou를 하나의 문자열로 만든 뒤 contains 쓰면 된다
 - indexOf는 그냥 char[] 배열에 현재 문자(char)가 있는지 확인하면 된다
 - 보통 indexOf가 더 빠르다는데 뭣이 더 빠른지 봅시다
+- indexOf가 더 빠르다 contains 쓰려면 String이 필요해서 한글자짜리 문자를 또 String으로 변환하는 번거로움이 있음
 
 [보완점]
 
@@ -32,15 +33,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-//        char[] vowel = {'a', 'e', 'i', 'o', 'u'};
         String vowels = "aeiou";
         String input = br.readLine();
         int count = 0;
 
         for (int i = 0; i < input.length(); i++) {
-            if (vowels.indexOf(input.charAt(i)) != -1) {
-                count++;
-            }
+            // indexOf는 값이 없으면 -1을 토한다
+            if (vowels.indexOf(input.charAt(i)) != -1) count++;
         }
 
         System.out.println(count);
