@@ -18,7 +18,11 @@
 - 입력받는거 하나씩 비교하고 같으면 넣고 해야죠 뭐
 
 [보완점]
-
+- String 비교보단 int 비교가 더 빠르다
+    - int는 기본 데이터 타입(primitive type)이고
+    - String은 객체(reference type)이기 때문
+    - 더군다나 equals는 문자열의 한글자씩 비교한다
+    - 문자열의 길이가 길수록 시간이 더 걸림
 
 11
 1 4 1 2 4 2 4 2 3 4 4
@@ -39,10 +43,10 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         int count = 0;
         StringTokenizer st = new StringTokenizer(br.readLine());
-        String v = br.readLine();
+        int v = Integer.parseInt(br.readLine());
 
         for (int i = 0; i < N; i++) {
-            if (v.equals(st.nextToken())) count++;
+            if (v == (Integer.parseInt(st.nextToken()))) count++;
         }
 
         System.out.println(count);
