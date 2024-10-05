@@ -22,25 +22,27 @@
     - HashSet은 순서를 보장해주지도 않을 뿐더러, TreeSet은 내부적으로 이진 탐색 트리로 구현되어 있으며, 삽입 시 자동으로 정렬되기 때문임.
 
 [보완점]
-
+- TreeSet은 입력 때마다 정렬한다는 특징이 있다.
+- 이럴바엔 ArrayList로 받고 한번에 정렬(sort)하는게 나을 수 있다.
 */
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String input = br.readLine();
-        Set<String> answer = new TreeSet<>();
+        String[] answer = new String[input.length()];
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < input.length(); i++) {
-            answer.add(input.substring(i));
+            answer[i]  = input.substring(i);
         }
+
+        Arrays.sort(answer);
 
         for (String temp : answer) {
             sb.append(temp).append("\n");
