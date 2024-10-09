@@ -19,6 +19,7 @@
 - 아 그리고 StringTokenizer 쓰면 '-'로 구분자 자름을 할 수 있다
 
 [보완점]
+- 오... nextToken에다가 냅다 charAt(0) 해도 된다!
 
 */
 
