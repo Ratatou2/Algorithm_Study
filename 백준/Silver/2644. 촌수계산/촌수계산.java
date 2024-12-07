@@ -73,7 +73,7 @@ public class Main {
             count++;
             
             int result = DFS(i, endNum);
-            if (result != -1) return result;
+            if (result != -1) return result;  // DFS 결과가 -1이 아니면 그 즉시 return
             
             isVisited[i] = false;
             count--;
