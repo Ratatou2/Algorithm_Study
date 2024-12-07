@@ -77,7 +77,7 @@ public class Main {
             int nextRow = row + moveRow[i];
             int nextCol = col + moveCol[i];
 
-            // 범위 밖을 벗어났거나, 방문한 적이 있거나, 이미 같은 알파벳을 보유중이라면 패스
+            // 범위 밖을 벗어났거나, 방문한 적이 있는 알파벳이라면 패스
             if (isOutOfBound(nextRow, nextCol) || isVisited[board[nextRow][nextCol] - 'A']) continue;
 
             // 현재 위치 알파벳
@@ -115,7 +115,7 @@ public class Main {
 
         // toString(board);
 
-        // 처음 시작할 때, 시작점인 [1][1] 지점도 중복 처리 및 카운트에 넣어야함을 잊지말자
+        // 처음 시작할 때, 시작점인 [0][0] 지점도 중복처리 및 카운트에 넣어야함을 잊지말자
         isVisited[board[0][0] - 'A'] = true;
         DFS(0, 0, 1);
 
