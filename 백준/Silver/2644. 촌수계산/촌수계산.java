@@ -28,7 +28,9 @@
 - 풀긴 풀었는데 이 방식이 맞나 싶고...
 
 [보완점]
-
+- depth 라는 변수를 넘겨주는 방식이 있다는 것, 이것을 쓰면 굳이 count라는 전역 변수를 안쓰고도 계산할 수 있다
+- return depth 해버리는 그 시점이 정답이기 때문이다
+- 또한 System.exit(0)은 강제 종료이기 때문에 권장되지 않는다고...
 
 */
 
@@ -57,10 +59,9 @@ public class Main {
         System.out.println(sb);
     }
 
-    static void DFS(int startNum, int endNum) {
+    static int DFS(int startNum, int endNum) {
         if (startNum == endNum) {
-            System.out.println(count);
-            System.exit(0);
+            return count;
         }
 
         for (int i = 1; i <= N; i++) {
@@ -70,10 +71,16 @@ public class Main {
             // 방문하지 않았던 사람이면 방문처리 + 촌수 +1 하고 거기서부터 DFS 시작
             isVisited[i] = true;
             count++;
-            DFS(i, endNum);
+            
+            int result = DFS(i, endNum);
+            if (result != -1) return result;
+            
             isVisited[i] = false;
             count--;
         }
+
+        // 여기까지 왔다는 것은 답을 찾지 못했음을 의미한다 (=> -1 출력)
+        return -1;
     }
 
     public static void main(String[] args) throws IOException {
@@ -104,10 +111,7 @@ public class Main {
         //toString(isConnected);
 
         isVisited[startNum] = true;
-        DFS(startNum, endNum);
 
-        // DFS 내부에 값을 찾으면 System.exit(0)으로 종료되도록 해두었다
-        // 때문에 여기까지 왔다는 것은 답을 찾지 못했음을 의미한다 (=> -1 출력)
-        System.out.println(-1); 
+        System.out.println(DFS(startNum, endNum));;
     }
 }
