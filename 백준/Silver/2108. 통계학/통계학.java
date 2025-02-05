@@ -39,6 +39,7 @@
 - TreeSet을 쓰면 장점은 자동 정렬 기능을 활용할 수 있다는 것이지만, 단점은 삽입 및 탐색에 O(log N)이 걸려 성능이 상대적으로 느리다는 것임
 - 오히려 배열을 쓰는게 더 빠를 줄 이야...
 - 또한 Collections의 max 함수를 쓰면 한번에 Map의 최댓값을 찾을 수 있음... (e.g. Collections.max(numCount.values());)
+- 아직 자료 구조 공부도 더 해야겠구나... ㅠ
 */
 
 import java.io.BufferedReader;
