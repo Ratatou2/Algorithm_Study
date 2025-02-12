@@ -133,8 +133,9 @@ public class Main {
         q.add(new int[]{0, 0});
 
         int recordCheeseCount = totalCheese;
+        // 치즈가 다 없어질 때까지 반복
         while (0 < totalCheese) {
-
+            // q에 있는 공기부터 탐색 시작
             while (!q.isEmpty()) {
                 int[] cur = q.poll();
 
@@ -159,12 +160,13 @@ public class Main {
                 }
             }
 
+            // 녹을 치즈들 melting 처리
             while (!meltingCheese.isEmpty()) {
                 int[] cur = meltingCheese.poll();
                 int x = cur[0];
                 int y = cur[1];
 
-                if (!board[x][y]) continue;
+                if (!board[x][y]) continue;  // 중복이 있을 수 있어 녹아 있다면 pass
                 board[x][y] = false;  // 치즈 녹음 처리
                 totalCheese--;  // 녹은 치즈는 갯수 - 처리
 
