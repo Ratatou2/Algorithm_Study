@@ -153,7 +153,7 @@ public class Main {
                     if (board[nx][ny]) meltingCheese.add(new int[]{nx, ny});
                     else {
                         q.add(new int[]{nx, ny});
-                        isVisited[nx][ny] = true;  // 다음 공기를 방문처리
+                        isVisited[nx][ny] = true;  // Q에 들어간 공기를 방문처리
                     }
                 }
             }
@@ -168,7 +168,7 @@ public class Main {
                 board[x][y] = false;  // 치즈 녹음 처리
                 totalCheese--;  // 녹은 치즈는 갯수 - 처리
                 isVisited[x][y] = true;  // 녹은 치즈들 방문처리
-                
+
                 q.add(new int[]{x, y});
             }
 
