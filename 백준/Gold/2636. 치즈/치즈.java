@@ -142,8 +142,6 @@ public class Main {
                 int x = cur[0];
                 int y = cur[1];
 
-                isVisited[x][y] = true;  // 방문처리
-
                 for (int i = 0; i < 4; i++) {
                     int nx = x + move_x[i];
                     int ny = y + move_y[i];
@@ -155,7 +153,7 @@ public class Main {
                     if (board[nx][ny]) meltingCheese.add(new int[]{nx, ny});
                     else {
                         q.add(new int[]{nx, ny});
-                        isVisited[nx][ny] = true;  // 방문처리
+                        isVisited[nx][ny] = true;  // 다음 공기를 방문처리
                     }
                 }
             }
@@ -169,14 +167,12 @@ public class Main {
                 if (!board[x][y]) continue;  // 중복이 있을 수 있어 녹아 있다면 pass
                 board[x][y] = false;  // 치즈 녹음 처리
                 totalCheese--;  // 녹은 치즈는 갯수 - 처리
-
+                isVisited[x][y] = true;  // 녹은 치즈들 방문처리
+                
                 q.add(new int[]{x, y});
             }
 
-            if (totalCheese == 0) {
-                hour++;
-                break;
-            };
+            if (totalCheese == 0) break;;
 
             // 이번 loop를 타서 치즈가 전혀 없게 된다면 마지막에 세둔 치즈 갯수가 모두 녹기 전 갯수이다
             recordCheeseCount = countCheese();
@@ -184,7 +180,7 @@ public class Main {
 
         }
 
-        System.out.println(hour);  // 마지막 한개까지 다 녹아버리려면 한시간 더 있어야하기 때문에 hour + 1
+        System.out.println(hour + 1);  // 마지막 한개까지 다 녹아버리려면 한시간 더 있어야하기 때문에 hour + 1
         System.out.println(recordCheeseCount);
     }
 }
