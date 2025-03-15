@@ -65,7 +65,7 @@ public class Main {
                 dasom++;
                 count++;
                 pq.add(curr - 1);
-            }
+            } else break;  // 역방향 정렬을 해두었으니까, 현 다솜이보다 작아지는 값이 나오는 순간 더 볼 것 없다
         }
 
         System.out.println(count);
