@@ -59,11 +59,6 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());  // 카드 갯수
         int M = Integer.parseInt(st.nextToken());  // 카드 합체 횟수
 
-        if (N == 0) {
-            System.out.println(0);
-            return;
-        }
-
         PriorityQueue<Long> pq = new PriorityQueue<>();
         st = new StringTokenizer(br.readLine());
 
