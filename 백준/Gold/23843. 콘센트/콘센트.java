@@ -25,6 +25,7 @@
 [보완점]
 */
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -54,7 +55,7 @@ public class Main {
             System.out.println(devices[N - 1]);
             return;
         }
-        
+
         // 콘센트 갯수만큼, 전자기기 콘센트에 꼽아두기 (시간이 제일 오래 걸리는 것들부터)
         PriorityQueue<Integer> pq = new PriorityQueue<>();
         int index = N - 1;
@@ -71,10 +72,15 @@ public class Main {
 
         // 그럼 이제 콘센트에서 하나씩 다 뽑을건데 제일 오래 걸리는건 PQ 제일 마지막에 있으니 다 뽑아버리고 마지막에 뽑은걸 나중에 출력하면 된다
         int latestTime = 0;
-        for (int i = 0; i < M; i++) {
-            latestTime = pq.poll();
-        }
+//        for (int i = 0; i < M; i++) {
+//            latestTime = pq.poll();
+//        }
 
-        System.out.println(latestTime);
+        // 궁금한게 PQ를 새로 만들 때 그것을 뒤집어서 poll 한번만 하는게 더 빠를까 아니면 하나씩 다 뽑는게 빠를까? (전자 아닐까.. 어차피 다 PQ.add 하긴할거아냐)
+        // 일단 현재 다 뽑는건 평균적으로 108ms~112ms
+        PriorityQueue<Integer> pq2 = new PriorityQueue<>(Comparator.reverseOrder());
+        pq2.addAll(pq);
+
+        System.out.println(pq2.poll());
     }
 }
