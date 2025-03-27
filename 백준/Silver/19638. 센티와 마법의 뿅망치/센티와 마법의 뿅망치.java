@@ -66,14 +66,18 @@ public class Main {
         }
 
         StringBuilder sb = new StringBuilder();
+        String answer;
+        int result;
         if (giants.peek() < H) {
-            sb.append("YES\n");
-            sb.append(swingCount);
+            answer = "YES\n";
+            result = swingCount;
         } else {
-            sb.append("NO\n");
-            sb.append(giants.peek());
+            answer = "NO\n";
+            result = giants.peek();
         }
 
+        sb.append(answer);
+        sb.append(result);
         System.out.println(sb);
     }
 }
