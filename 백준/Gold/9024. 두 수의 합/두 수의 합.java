@@ -45,33 +45,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int[] nums;
-
-    static int binarySearch(int left, int right, int target) {
-        // 오른쪽이 더 작은건 있을 수 없는 경우
-        if (right < left) return -1;
-
-        int result = -1;
-        int minDiff = Integer.MAX_VALUE;
-
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            int diff = Math.abs(target - nums[mid]);  // 목표치에서 현재 mid인자를 빼버림
-
-            // 최소 근삿값을 갱신한 경우
-            if (diff < minDiff) {
-                minDiff = diff;
-                result = mid;  // 인덱스를 return 할 것이니까 nums[mid]가 아닌 mid를 가져간다
-            }
-
-            // 이분탐색 - 현재 중앙값과 비교했는데, 중앙값이 작으면 왼쪽을 키우고, 중앙값이 크면 오른쪽을 줄인다
-            if (nums[mid] < target) left = mid + 1;
-            else right = mid - 1;
-        }
-
-        return result;
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
@@ -86,7 +59,7 @@ public class Main {
             int k = Integer.parseInt(st.nextToken());
 
             // 숫자들 입력 받기
-            nums = new int[n];
+            int[] nums = new int[n];
             st = new StringTokenizer(br.readLine());
 
             for (int i = 0; i < n; i++) {
@@ -100,45 +73,25 @@ public class Main {
             int count = 0;  // 근삿값 갯수
 
             // 인자 하나 붙잡고 이분 탐색 시작
-            for (int i = 0; i < n - 1; i++) {
-                int target = k - nums[i];
-                int idx = binarySearch(i + 1, n - 1, target);
+            for (int i = 0; i < n; i++) {
+                int left = i + 1;  // 현재 인자를 제외하고 진행해야하니까 + 1
+                int right = n - 1;  // 배열 인덱스는 0부터 시작이니까 -1
 
-                // 찾은 요소와 합이 k와 얼마나 차이나는지 계산
-                if (idx == -1) continue;
+                while (left <= right) {
+                    int mid = (left + right) / 2;
+                    int currSum = nums[i] + nums[mid];
+                    int currApprox = Math.abs(k - currSum);  // 현재 근삿값
 
-                int diff = Math.abs(k - (nums[i] + nums[idx]));
-
-                // 근삿값이 같은 차이면 카운트 증가 or 갱신
-                if (diff == minDiff) count++;
-                else if (diff < minDiff) {  // 근삿값보다 작으면 갱신
-                    minDiff = diff;
-                    count = 1;
-                }
-
-                // 가능한 후보가 더 있는지 추가 탐색
-                // 해당 idx 기준으로 왼쪽, 오른쪽도 확인
-                if (i + 1 < idx) {  // 현재 인덱스보다 찾은 인덱스가 크면, 찾은 인덱스 기준으로 왼쪽으로 더 찾아볼 공간이 있다는 것이다
-                    int leftFind = Math.abs(k - (nums[i] + nums[idx - 1]));
-
-                    // 왼쪽 후보가 근삿값과 똑같다면?
-                    if (leftFind == minDiff) {
+                    // 현재 근삿값과 동일하면 count + 1
+                    if (minDiff == currApprox) {
                         count++;
-                    } else if (leftFind < minDiff) {  // 왼쪽 후보가 근삿값을 갱신한 경우
-                        minDiff = leftFind;
+                    } else if (currApprox < minDiff) {  // 더 작은 근삿값을 찾았다면? 근삿값 갱신 및 count 초기화
+                        minDiff = currApprox;
                         count = 1;
                     }
-                }
 
-                if (idx < n - 1) {  // 전체 인덱스보다 찾은 인덱스가 작으면, 찾은 인덱스 기준으로 오른쪽으로 더 찾아볼 공간이 있다는 것이다
-                    int rightFind = Math.abs(k - (nums[i] + nums[idx + 1]));
-
-                    // 오른쪽 후보가 근삿값과 똑같다면?
-                    if (rightFind == minDiff) count++;
-                    else if (rightFind < minDiff) {  // 오른쪽 후보가 근삿값을 갱신한 경우
-                        minDiff = rightFind;
-                        count = 1;
-                    }
+                    if (currSum < k) left = mid + 1;  // 현재 합이, 근사치보다 작으면? left를 늘려야지
+                    else right = mid - 1;  // 현재 합이, 근사치보다 크면? right를 줄인다
                 }
             }
 
