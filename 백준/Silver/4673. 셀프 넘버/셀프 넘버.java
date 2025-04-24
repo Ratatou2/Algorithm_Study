@@ -35,10 +35,11 @@ public class Main {
     static int d(int n) {
         int sum = n;
 
-        for (char c : String.valueOf(n).toCharArray()) {
-            sum += c - '0';  // 각 문자열을 한 자리 수로 만들어서 더한다
+        while (n > 0) {
+            sum += n % 10;  // 일의 자리 더함
+            n /= 10;        // 다음 자리로
         }
-
+        
         return sum;
     }
 
