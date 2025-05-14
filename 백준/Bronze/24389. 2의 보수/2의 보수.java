@@ -1,6 +1,6 @@
 /*
 [백준]
-
+24389, 2의 보수
 
 [문제파악]
 컴퓨터는 뺄셈을 처리할 때 내부적으로 2의 보수를 사용한다.
@@ -19,9 +19,11 @@
 - 2의 보수니까 1을 더해야하고 1을 더하는 것은 당연히
 
 [보완점]
+- XOR 연산을 쓰면 그냥 몇개 차이나는지 계산 가능..이라네... 머쓱..
+- 그리고 Integer 함수 중에 bitCount 함수도 있음;;
+- 무엇보다 자바는 기본적으로 10진수로 숫자를 입력하고 출력한다 But!!! 내부 게산, 모든 정수는 실질적으로 이진수로 저장되고, 연산도 이진수로 처리된다
 */
 
-import com.sun.security.jgss.GSSUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,15 +36,8 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         int complementN = ~N + 1;
 
-        // 2진수 문자열로 표현할 건데 32자리 중 빈자리가 있다면 0으로 채운다
-        String N_Str = String.format("%32s", Integer.toBinaryString(N)).replace(' ', '0');
-        String complementN_Str = String.format("%32s", Integer.toBinaryString(complementN)).replace(' ', '0');
+        int diff = N ^ complementN;
 
-        int count = 0;
-        for (int i = 0; i < N_Str.length(); i++) {
-            if (N_Str.charAt(i) != complementN_Str.charAt(i)) count++;
-        }
-
-        System.out.println(count);
+        System.out.println(Integer.bitCount(diff));
     }
 }
