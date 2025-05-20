@@ -37,10 +37,11 @@ M번의 명령 후에 1번째 기차부터 순서대로 한 기차씩 은하수�
 
 [구현방법]
 - 비트마스킹으로 푼다
-- 명령의 종류를 구분하고
-- 명령 3, 4에서는 기차 번호만 주어지므로 좌석 번호를 파싱하지 않아야 함
-- 명령 3에서는 왼쪽 시프트 후 20번째 비트를 제거해야 함
-- 디버그용 출력문은 제거해야 함
+- 명령의 종류를 구분하고 분기 태우면 될듯
+
+- 내가 놓친 부분이 있다면? 한칸씩 '뒤로 간다'라는 것은 좌석의 번호가 커지는 것을 의미함
+- 즉, 자릿수가 밀릴수록 뒤로 밀리는 것임 (<< 1)
+- 반대로 한 칸씩 '앞으로 간다'는 것은 좌석의 번호가 작아짐을 의미함 (>> 1)
 
 [보완점]
 */
@@ -61,30 +62,27 @@ public class Main {
             st = new StringTokenizer(br.readLine());
 
             int order = Integer.parseInt(st.nextToken());
-            
+            int index = Integer.parseInt(st.nextToken()) - 1;  // #인덱스니까 -1 필요
+
             // 기차 사람 배치
             switch (order) {
                 case 1:
                     // 1 i x : i번째 기차에(1 ≤ i ≤ N) x번째 좌석에(1 ≤ x ≤ 20) 사람을 태워라.
-                    int trainIndex1 = Integer.parseInt(st.nextToken()) - 1;  // 기차 인덱스
-                    int seatNum1 = Integer.parseInt(st.nextToken()) - 1;     // 좌석 번호도 인덱스로 계산해야하니까 -1
-                    trains[trainIndex1] |= (1 << seatNum1);
+                    int seatNum1 = Integer.parseInt(st.nextToken()) - 1;  // 좌석 번호도 인덱스로 계산해야하니까 -1
+                    trains[index] |= (1 << seatNum1);
                     break;
                 case 2:
                     // 2 i x : i번째 기차에 x번째 좌석에 앉은 사람은 하차
-                    int trainIndex2 = Integer.parseInt(st.nextToken()) - 1;  // 기차 인덱스
                     int seatNum2 = Integer.parseInt(st.nextToken()) - 1;
-                    trains[trainIndex2] &= ~(1 << seatNum2);
+                    trains[index] &= ~(1 << seatNum2);
                     break;
                 case 3:
                     // 3 i : i번째 기차에 앉아있는 승객들이 모두 한칸씩 뒤로 간다.
-                    int trainIndex3 = Integer.parseInt(st.nextToken()) - 1;  // 기차 인덱스
-                    trains[trainIndex3] = (trains[trainIndex3] << 1) & ((1 << 20) - 1);  // 좌석 20개 넘어가는 비트 제거
+                    trains[index] = (trains[index] << 1) & ((1 << 20) - 1);  // 한칸씩 앞으로 간 뒤, 좌석 갯수인 20을 넘어가는 상위 비트 자르기
                     break;
                 case 4:
                     // 4 i : i번째 기차에 앉아있는 승객들이 모두 한칸씩 앞으로 간다.
-                    int trainIndex4 = Integer.parseInt(st.nextToken()) - 1;  // 기차 인덱스
-                    trains[trainIndex4] >>= 1;
+                    trains[index] >>= 1;
                     break;
             }
         }
