@@ -10,6 +10,7 @@ public class Main {
         String N = br.readLine();
 
         int result = 0;
+        // 자릿수마다 나머지 계산하는게 팁
         for (int i = 0; i < N.length(); i++) {
             result = (int)((result * 10L + (N.charAt(i) - '0')) % MOD);
         }
