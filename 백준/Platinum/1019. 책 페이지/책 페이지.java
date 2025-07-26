@@ -1,53 +1,118 @@
-import java.io.*;
+/*
+[백준]
+1019, 책 페이지
+
+[문제파악]
+지민이는 전체 페이지의 수가 N인 책이 하나 있다.
+첫 페이지는 1 페이지이고, 마지막 페이지는 N 페이지이다.
+각 숫자가 전체 페이지 번호에서 모두 몇 번 나오는지 구해보자.
+
+[입력]
+첫째 줄에 N이 주어진다. N은 1,000,000,000보다 작거나 같은 자연수이다.
+
+[출력]
+첫째 줄에 0이 총 몇 번 나오는지, 1이 총 몇 번 나오는지, ..., 9가 총 몇 번 나오는지를 공백으로 구분해 출력한다.
+
+[구현방법]
+- 최대 1,000,000,000니까 for문으로 한번 쭉 탐색하고 한번 쭉 print하는 구조면 2초내로 가능하지 않을까? (20억)
+- 다만, 숫자들을 자릿수대로 쪼개가며 숫자 index를 카운트하는 리스트나 map에 추가해줘야할테니, 단순 반복문으로는 풀 수 없다
+- 수학적 공식이 들어가야만 풀 수 있을듯...?
+- 예를들어 1111x 숫자를 세는 단계에 들어왔다면?
+    - 맨 끝자락의 1의 자리가 9에 도달해서 1112x에 도달하기 전까지는 1에 4개를 더하고 x만 자릿값으로 더해주면 될터이다
+    - 그렇다면 그것은 어떻게...? (ㄹㅇ 순수한 수학적 사고가 필요한 시점)
+    - 공식이 있을건데...? (2진법 써야되나..?)
+
+- 초기에 내가 생각했던 방식
+    1. 1의 자리만 바꿔가며 카운트한다
+    2. 그러다가 9에서 10으로 0이되는 순간, 그 윗자릿수 계산을 한다
+    3. 1의 자리 이상의 숫자들은 이미 카운트된 것을 쓴다
+    4. 1의 자리 이상의 숫자들은 1의 자리가 0이 되는 순간 계산을 하며 자릿수 계산을 마치고, 변동된 각 자릿수의 숫자에 따라 숫자 배열을 더하고 빼서 지속적으로 1의 자리만 계산하면 되도록 유지한다
+    - 그저 구현에 가까운 문제 (단순 수식으로 구현하는 것보다 더 복잡할 가능성이 높음)
+    - 그러나 보다시피 어떻게 구현해야할지도 모르겠음..
+
+- 수학으로 푸는 방식 (이것을 이해하는데는 답안을 참조하였음)
+    1) 우선적으로 1의 자리부터 숫자를 구한다
+    2) 자리를 구할 땐 현재 구하는 자릿수의 수를 기준으로 좌, 우를 쪼갠다
+    3) 그리고 각각 왼쪽, 오른쪽에서 숫자들이 기본적으로 몇번이나 반복되는지 체크한다
+    4) 그리고 자잘한, 현재 자릿수에 도달하기까지의 숫자들은 직접 또 따로 카운트한다 (24라면 , 20, 21, 22, 23, 24로 5가지)
+    5) 그런식으로 각 자릿수에 대한 숫자를 모두 누적하여 계산한다
+
+[보완점]
+*/
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    static long[] count = new long[10];
-
-    private static void addDigitCount(int num, long digit) {
-        while (0 < num) {
-            int d = num % 10;
-            count[d] += digit;
-            num /= 10;
-        }
-    }
-    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
+        
         int N = Integer.parseInt(br.readLine());
+        int[] digitCount = new int[10];  // 자릿수 저장할 배열
 
-        int start = 1;
-        int end = N;
-        long digit = 1;
+        int num = 1;  // 시작 숫자 (여기에 계속 10을 곱해서 자릿수를 구하는데 써먹을 것이다)
 
-        while (start <= end) {
-            // 1. start 오른쪽 정렬 (1의 자리를 0으로)
-            while (start % 10 != 0 && start <= end) {
-                addDigitCount(start, digit);
-                start++;
-            }
+        while (num <= N) {
+            int lowerDigits = N % num;  // 현재 자릿수보다 작은 자리의 숫자들
+            int currentDigit = (N / num) % 10;  // 현재 자릿수
+            int higherDigits = N / (num * 10);  // 현재 자릿수보다 높은 자리의 숫자들
 
-            // 2. end 오른쪽 정렬 (1의 자리를 9로)
-            while (end % 10 != 9 && start <= end) {
-                addDigitCount(end, digit);
-                end--;
-            }
-
-            // 3. 한 덩어리 계산 (start ~ end가 0~9 정렬됨)
-            if (end < start) break;
-            long countRange = (end / 10 - start / 10 + 1);
-
+            // 공통 반복되는 기본 등장 수
             for (int i = 0; i < 10; i++) {
-                count[i] += countRange * digit;
+                digitCount[i] += higherDigits * num;
             }
 
-            start /= 10;
-            end /= 10;
-            digit *= 10;
+            // 현재 자릿수보다 작은 수들 등장
+            for (int i = 0; i < currentDigit; i++) {
+                digitCount[i] += num;
+            }
+
+            // 현재 자릿수가 == i일 때는, 부분 범위 처리
+            digitCount[currentDigit] += lowerDigits + 1;
+
+            // 앞자리가 0인 케이스를 제거 (이것을 해줘야하는 이유는 수학적으로 풀어서 그러함. 자릿수만 보고 앞뒤 숫자 보고 냅다 유추해서 곱셈하니까 맨 앞에 0이 오는 경우의 수도 생기기 때문임)
+            digitCount[0] -= num;
+
+            // 위 모든 과정을 모든 자릿수마다 반복
+            num *= 10;
+
+            /*
+             1) 변수 값 세팅
+                N = 25351, num =100인 경우를 예시로 들면
+                lowerDigits = 25351 % 100 = 51
+                currentDigit = (25351 / 100) % 10
+                             = 253 % 10
+                             = 3
+                higherDigits = 25351 / (100 * 10)
+                             = 25351 / 1000
+                             = 25
+
+
+            2) 공통 반복 숫자 등록
+                higherDigits * num = 25 * 100 = 2500
+                각 숫자(0~9) 모두 100의 자리에서 2500번씩 등장했다고 가정
+
+                digitCount = [2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500]
+
+
+            3) 현재 자릿수보다 (같은 자릿수에서) 작은 숫자들
+                각 숫자에 대해 digitCount[i] += 100을 한다
+                currentDigit = 3이니까 이보다 작은 0, 1, 2 세 숫자에 대해 x 100 (=num)을 통해 갯수를 맞춘다
+
+                digitCount = [2600, 2600, 2600, 2500, 2500, 2500, 2500, 2500, 2500, 2500]
+
+            4) 현재 자릿수 숫자 세팅
+                현재 자릿수인 3은 100의 자리에서 총 52번 등장한다 (25'351'이니까)
+                lowerDigits + 1 = 51 + 1 = 52
+
+                digitCount[3] += 52을 통해 최종적으로 digitCount = [2600, 2600, 2600, 2552, 2500, 2500, 2500, 2500, 2500, 2500]
+            */
         }
 
-        for (int i = 0; i < 10; i++) {
-            sb.append(count[i]).append(" ");
+        for (int count : digitCount) {
+            sb.append(count).append(" ");
         }
 
         System.out.println(sb);
