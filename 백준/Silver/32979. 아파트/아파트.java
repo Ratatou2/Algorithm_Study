@@ -60,10 +60,11 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         while (st.hasMoreTokens()) {
             // 쌓인 손보다 큰 수를 부르는 경우 굳이 여러 바퀴 다 돌 필요 없다
-            int num = Integer.parseInt(st.nextToken());
+            // 모듈러 연산 적용
+            int num = (Integer.parseInt(st.nextToken()) - 1) % hands.size();
 
             // N번째 손바닥은 빼내는 것이 아니기 때문에 밑바닥에 그대로 있어야한다 (그러기 위한 num - 1임)
-            for (int i = 0; i < num - 1; i++) {
+            for (int i = 0; i < num; i++) {
                 hands.addLast(hands.pollFirst());
             }
 
