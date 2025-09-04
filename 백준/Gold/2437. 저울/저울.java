@@ -56,11 +56,9 @@ public class Main {
 
         int sum = 0;
         for (int i = 0; i < N; i++) {
-            // 현재 무게가 sum보다 작거나 같으면 sum + weight 무게들은 다 만들 수 있다는 의미
-            if (sum + 1 < weights[i]) {
-                System.out.println(sum + 1);
-                System.exit(0);
-            }
+            // 현재 무게가 (sum+1)을 초과하면 sum+1을 만들 수 없다는 의미이다 (=정렬되어있는 상태니 정답의 조건을 찾은셈)
+            if (sum + 1 < weights[i]) break;
+            
             sum += weights[i];
         }
 
