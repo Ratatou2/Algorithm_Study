@@ -1,5 +1,4 @@
 
-
 /*
 [백준]
 7568, 덩치
@@ -44,48 +43,38 @@ E	(46, 155)	5
 - 이때, 자기 자신보다 큰 덩치를 만났으면? 내 순위를 떨구면 된다
 
 [보완점]
-
+- 클래스 없어도 됨
 */
 
 import java.io.*;
 import java.util.*;
 
 public class Main {
-    static class Info {
-        int weight;
-        int hight;
-        int score;
-
-        Info (int weight, int hight) {
-            this.weight = weight;
-            this.hight = hight;
-            this.score = 0;
-        }
-    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        List<Info> guys = new ArrayList<>();
+        int[][] guys = new int[N][N];
         int[] scores = new int[N];
 
         // 덩치들 입력 받기
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            guys.add(new Info(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+            guys[i][0] = Integer.parseInt(st.nextToken());
+            guys[i][1] = Integer.parseInt(st.nextToken());
         }
 
         // 덩치들 비교하기
         for (int i = 0; i < N; i++) {
-            Info curr = guys.get(i);
+            int[] curr = guys[i];
 
             for (int j = 0; j < N; j++) {
                 if (i == j) continue;   // 자기 자신은 비교할 것 없음
 
-                Info next = guys.get(j);
+                int[] next = guys[j];
 
                 // 현재 인원이 덩치가 더 크면? 비교군은 순위를 떨군다
-                if (next.weight < curr.weight && next.hight < curr.hight) {
+                if (next[1] < curr[1] && next[0] < curr[0]) {
                     scores[j]++;
                 }
             }
