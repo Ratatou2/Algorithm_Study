@@ -1,4 +1,5 @@
 
+
 /*
 [백준]
 16234, 인구 이동
@@ -47,6 +48,11 @@ r행 c열에 주어지는 정수는 A[r][c]의 값이다. (0 ≤ A[r][c] ≤ 100
 - 위 과정을 차이를 하나도 구하지 못하고 (= 세트의 size가 0일 때까지) 마지막에 도달할 때까지 반복
 
 [보완점]
+- 잘푼 사람들보다 대략 3-4배 느림
+- 일단 불필요한 클래스부터 제거해보기
+- 해보니까 엄청 유의미하진 않은듯...?
+
+- 그 다음은 isVisited 재사용하기 (계산할 때 방문처리 해제 
 */
 
 import java.io.*;
@@ -100,6 +106,7 @@ public class Main {
         R = Integer.parseInt(st.nextToken());  // 이하
 
         map = new int[N][N];
+        isVisited = new boolean[N][N];
 
         // 맵 입력받기
         for (int row = 0; row < N; row++) {
@@ -112,7 +119,6 @@ public class Main {
         int count = 0;
         while (true) {
             List<List<int[]>> unions = new ArrayList<>();
-            isVisited = new boolean[N][N];
 
             // 맵 탐색
             for (int row = 0; row < N; row++) {
@@ -168,6 +174,7 @@ public class Main {
                 // 평균 값 계산
                 for (int[] loc : curr) {
                     sum += map[loc[0]][loc[1]];
+                    isVisited[loc[0]][loc[1]] = false;  // 방문처리 해제
                 }
 
                 int avg = sum / curr.size();
