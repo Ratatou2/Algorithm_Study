@@ -1,5 +1,4 @@
 
-
 /*
 [백준]
 16234, 인구 이동
@@ -61,15 +60,6 @@ public class Main {
     static int[][] map;
     static boolean[][] isVisited;
 
-    static class Location {
-        int x, y;
-
-        Location (int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     static boolean isOutOfBound (int x, int y) {
         return x < 0 || y < 0 || N <= x || N <= y;
     }
@@ -120,9 +110,8 @@ public class Main {
         }
 
         int count = 0;
-        int T = 2;
         while (true) {
-            List<List<Location>> unions = new ArrayList<>();
+            List<List<int[]>> unions = new ArrayList<>();
             isVisited = new boolean[N][N];
 
             // 맵 탐색
@@ -131,28 +120,28 @@ public class Main {
                     // 이미 방문한 경력이 있다면 다른 연합에 포함되어있다는 의미니까 탐색할 이유가 없음
                     if (isVisited[row][col]) continue;
 
-                    List<Location> union = new ArrayList<>();
-                    Queue<Location> q = new ArrayDeque<>();
-                    Location start = new Location(row, col);
+                    List<int[]> union = new ArrayList<>();
+                    Queue<int[]> q = new ArrayDeque<>();
+                    int[] start = new int[] {row, col};
                     q.add(start);
                     union.add(start);
 
                     while (!q.isEmpty()) {
-                        Location curr = q.poll();
-                        isVisited[curr.x][curr.y] = true;  // 방문처리
+                        int[] curr = q.poll();
+                        isVisited[curr[0]][curr[1]] = true;  // 방문처리
 
                         // 사방탐색
                         for (int i = 0; i < 4; i++) {
-                            int nextX = curr.x + moveX[i];
-                            int nextY = curr.y + moveY[i];
+                            int nextX = curr[0] + moveX[i];
+                            int nextY = curr[1] + moveY[i];
 
                             // 범위 밖으로 초과 or 이미 방문한 경우 or 국경선 개방 조건을 달성하지 못한 경우, 모두 통과
                             if (isOutOfBound(nextX, nextY)
                                     || isVisited[nextX][nextY]
-                                    || !isOpenBorder(map[curr.x][curr.y], map[nextX][nextY])) continue;
+                                    || !isOpenBorder(map[curr[0]][curr[1]], map[nextX][nextY])) continue;
 
-                            Location temp = new Location(nextX, nextY);
-                            isVisited[temp.x][temp.y] = true;  // 방문처리 (Q에 넣기 전에 해야만 중복막을 수 있음)
+                            int[] temp = new int[] {nextX, nextY};
+                            isVisited[temp[0]][temp[1]] = true;  // 방문처리 (Q에 넣기 전에 해야만 중복막을 수 있음)
                             q.add(temp);
                             union.add(temp);
                         }
@@ -173,19 +162,19 @@ public class Main {
             if (unions.isEmpty()) break;
 
             // 값 갱신
-            for (List<Location> curr : unions) {
+            for (List<int[]> curr : unions) {
                 int sum = 0;
 
                 // 평균 값 계산
-                for (Location loc : curr) {
-                    sum += map[loc.x][loc.y];
+                for (int[] loc : curr) {
+                    sum += map[loc[0]][loc[1]];
                 }
 
                 int avg = sum / curr.size();
 
                 // 평균값으로 덮어 씌우기
-                for (Location loc : curr) {
-                    map[loc.x][loc.y] = avg;
+                for (int[] loc : curr) {
+                    map[loc[0]][loc[1]] = avg;
                 }
             }
 
