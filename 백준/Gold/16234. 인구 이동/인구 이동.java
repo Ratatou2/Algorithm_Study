@@ -1,5 +1,4 @@
 
-
 /*
 [백준]
 16234, 인구 이동
@@ -57,6 +56,15 @@ r행 c열에 주어지는 정수는 A[r][c]의 값이다. (0 ≤ A[r][c] ≤ 100
 
 - 그 다음은 BFS 계산할 때 그냥 평균은 연합이 정해진 순간에 그냥 계산해둬도 된다는 것!
 - List<List<int[]>>로 따로 저장해두지 않아도 됨
+
+=== 여기까지 진행했을 떄 초기값 800ms -> 664ms로 단축 성공 ===
+
+- 조건문 분기 줄이기
+- 어차피 함수들이 한번만 호출되니까 함수 호출 오버헤드를 줄이려면 인라인으로 직접 계산하도록 하자
+
+- 또한, isVisited를 숫자로 처리하면 매번 초기화를 안해도 됨
+
+- 이후엔 1차원 배열로 만들면 new int[] {} 시간도 아낄 수 있어서 더 효율적!
 */
 
 import java.io.*;
@@ -66,40 +74,30 @@ public class Main {
     static int[] moveX = {0, 1, 0, -1};
     static int[] moveY = {-1, 0, 1, 0};
 
-    static int N, L, R;
-    static int[][] map;
-    static boolean[][] isVisited;
+    static int N, L, R, round;
+    static int[] map;
+    static int[][] isVisited;
 
-    static boolean isOutOfBound (int x, int y) {
-        return x < 0 || y < 0 || N <= x || N <= y;
-    }
-
-    static boolean isOpenBorder (int curr, int next) {
-        int diff = Math.abs(curr - next);
-
-        return L <= diff && diff <= R;
-    }
-
-    static void printMap () {
-        StringBuilder sb = new StringBuilder();
-        sb.append("==================\n");
-        for (int row = 0; row < N; row++) {
-            for (int col = 0; col < N; col++) {
-                sb.append(map[row][col] + " ");
-            }
-            sb.append("\n");
-        }
-
-        sb.append("==================\n");
-        for (int row = 0; row < N; row++) {
-            for (int col = 0; col < N; col++) {
-                sb.append((isVisited[row][col] ? "⬜️" : "⬛️") + " ");
-            }
-            sb.append("\n");
-        }
-
-        System.out.println(sb);
-    }
+//    static void printMap () {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("==================\n");
+//        for (int row = 0; row < N; row++) {
+//            for (int col = 0; col < N; col++) {
+//                sb.append(map[row][col] + " ");
+//            }
+//            sb.append("\n");
+//        }
+//
+//        sb.append("==================\n");
+//        for (int row = 0; row < N; row++) {
+//            for (int col = 0; col < N; col++) {
+//                sb.append((isVisited[row][col] ? "⬜️" : "⬛️") + " ");
+//            }
+//            sb.append("\n");
+//        }
+//
+//        System.out.println(sb);
+//    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -109,54 +107,60 @@ public class Main {
         L = Integer.parseInt(st.nextToken());  // 이상
         R = Integer.parseInt(st.nextToken());  // 이하
 
-        map = new int[N][N];
-
+        round = 1;
+        map = new int[N * N];
+        isVisited = new int[N][N];
 
         // 맵 입력받기
         for (int row = 0; row < N; row++) {
             StringTokenizer temp = new StringTokenizer(br.readLine());
             for (int col = 0; col < N; col++) {
-                map[row][col] = Integer.parseInt(temp.nextToken());
+                map[row * N + col] = Integer.parseInt(temp.nextToken());
             }
         }
 
         int count = 0;
         while (true) {
             boolean isMoved = false;
-            isVisited = new boolean[N][N];
 
             // 맵 탐색
             for (int row = 0; row < N; row++) {
                 for (int col = 0; col < N; col++) {
                     // 이미 방문한 경력이 있다면 다른 연합에 포함되어있다는 의미니까 탐색할 이유가 없음
-                    if (isVisited[row][col]) continue;
+                    if (isVisited[row][col] == round) continue;
 
-                    int unionTotal = map[row][col];
-                    List<int[]> union = new ArrayList<>();
-                    Queue<int[]> q = new ArrayDeque<>();
-                    int[] start = new int[] {row, col};
-                    q.add(start);
-                    union.add(start);
+                    List<Integer> union = new ArrayList<>();
+                    Queue<Integer> q = new ArrayDeque<>();
+                    int startIdx = row * N + col;
+
+                    q.add(startIdx);
+                    union.add(startIdx);
+                    isVisited[row][col] = round;  // 방문처리
+                    int unionTotal = map[startIdx];
 
                     while (!q.isEmpty()) {
-                        int[] curr = q.poll();
-                        isVisited[curr[0]][curr[1]] = true;  // 방문처리
+                        int curr = q.poll();
+                        int currX = curr / N;
+                        int currY = curr % N;
 
                         // 사방탐색
                         for (int i = 0; i < 4; i++) {
-                            int nextX = curr[0] + moveX[i];
-                            int nextY = curr[1] + moveY[i];
+                            int nextX = currX + moveX[i];
+                            int nextY = currY + moveY[i];
 
-                            // 범위 밖으로 초과 or 이미 방문한 경우 or 국경선 개방 조건을 달성하지 못한 경우, 모두 통과
-                            if (isOutOfBound(nextX, nextY)
-                                    || isVisited[nextX][nextY]
-                                    || !isOpenBorder(map[curr[0]][curr[1]], map[nextX][nextY])) continue;
+                            // 범위 밖으로 초과 or 이미 방문한 경우, 모두 통과
+                            if ((nextX < 0 || nextY < 0 || N <= nextX || N <= nextY)
+                                    || isVisited[nextX][nextY] == round) continue;
 
-                            int[] temp = new int[] {nextX, nextY};
-                            isVisited[temp[0]][temp[1]] = true;  // 방문처리 (Q에 넣기 전에 해야만 중복막을 수 있음)
-                            q.add(temp);
-                            union.add(temp);
-                            unionTotal += map[temp[0]][temp[1]];
+                            // 또한 or 국경선 개방 조건을 달성하지 못한 경우도 통과
+                            int nextIndex = nextX * N + nextY;
+                            int diff = Math.abs(map[curr] - map[nextIndex]);
+                            if (!(L <= diff && diff <= R)) continue;
+
+                            isVisited[nextX][nextY] = round;  // 방문처리 (Q에 넣기 전에 해야만 중복막을 수 있음)
+                            q.add(nextIndex);
+                            union.add(nextIndex);
+                            unionTotal += map[nextIndex];
                         }
                     }
 
@@ -168,8 +172,8 @@ public class Main {
                         int avg = unionTotal / union.size();
 
                         // 평균 값 계산
-                        for (int[] loc : union) {
-                            map[loc[0]][loc[1]] = avg;
+                        for (int index : union) {
+                            map[index] = avg;
                         }
                     }
                 }
@@ -177,6 +181,7 @@ public class Main {
 
             if (!isMoved) break;
             count++;
+            round++;
         }
 
         System.out.println(count);
