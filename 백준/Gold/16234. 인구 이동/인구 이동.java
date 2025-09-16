@@ -52,7 +52,11 @@ r행 c열에 주어지는 정수는 A[r][c]의 값이다. (0 ≤ A[r][c] ≤ 100
 - 일단 불필요한 클래스부터 제거해보기
 - 해보니까 엄청 유의미하진 않은듯...?
 
-- 그 다음은 isVisited 재사용하기 (계산할 때 방문처리 해제 
+- 그 다음은 isVisited 재사용하기 (계산할 때 방문처리 해제)
+- 이것보단 round = 1처럼 방문처리를 숫자로 하는게 더 낫겠다는 아이디어도 있음
+
+- 그 다음은 BFS 계산할 때 그냥 평균은 연합이 정해진 순간에 그냥 계산해둬도 된다는 것!
+- List<List<int[]>>로 따로 저장해두지 않아도 됨
 */
 
 import java.io.*;
@@ -106,7 +110,7 @@ public class Main {
         R = Integer.parseInt(st.nextToken());  // 이하
 
         map = new int[N][N];
-        isVisited = new boolean[N][N];
+
 
         // 맵 입력받기
         for (int row = 0; row < N; row++) {
@@ -118,7 +122,8 @@ public class Main {
 
         int count = 0;
         while (true) {
-            List<List<int[]>> unions = new ArrayList<>();
+            boolean isMoved = false;
+            isVisited = new boolean[N][N];
 
             // 맵 탐색
             for (int row = 0; row < N; row++) {
@@ -126,6 +131,7 @@ public class Main {
                     // 이미 방문한 경력이 있다면 다른 연합에 포함되어있다는 의미니까 탐색할 이유가 없음
                     if (isVisited[row][col]) continue;
 
+                    int unionTotal = map[row][col];
                     List<int[]> union = new ArrayList<>();
                     Queue<int[]> q = new ArrayDeque<>();
                     int[] start = new int[] {row, col};
@@ -150,41 +156,26 @@ public class Main {
                             isVisited[temp[0]][temp[1]] = true;  // 방문처리 (Q에 넣기 전에 해야만 중복막을 수 있음)
                             q.add(temp);
                             union.add(temp);
+                            unionTotal += map[temp[0]][temp[1]];
                         }
                     }
 
                     // 모든 사방 탐색이 끝났는데 union의 size가 1이라면 시작지점외엔 없었다는 의미다
                     // 즉시, 방문처리 해제 후, 아무것도 하지 않는다
                     // 반면에 연합이 형성되었다면, 해당 연합을 기록해둔다
-                    if (union.size() <= 1) {
-                        isVisited[row][col] = false;
-                    } else {
-                        unions.add(union);
+                    if (1 < union.size()) {
+                        isMoved = true;
+                        int avg = unionTotal / union.size();
+
+                        // 평균 값 계산
+                        for (int[] loc : union) {
+                            map[loc[0]][loc[1]] = avg;
+                        }
                     }
                 }
             }
 
-            // 새로 추가된 연합이 없다면 중단
-            if (unions.isEmpty()) break;
-
-            // 값 갱신
-            for (List<int[]> curr : unions) {
-                int sum = 0;
-
-                // 평균 값 계산
-                for (int[] loc : curr) {
-                    sum += map[loc[0]][loc[1]];
-                    isVisited[loc[0]][loc[1]] = false;  // 방문처리 해제
-                }
-
-                int avg = sum / curr.size();
-
-                // 평균값으로 덮어 씌우기
-                for (int[] loc : curr) {
-                    map[loc[0]][loc[1]] = avg;
-                }
-            }
-
+            if (!isMoved) break;
             count++;
         }
 
