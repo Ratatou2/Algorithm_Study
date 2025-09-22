@@ -120,11 +120,8 @@ public class Main {
         while (true) {
             // 1) 좌
             for (int i = 0; i < moveCount; i++) {
-                int moveDirX = moveX[0];
-                int moveDirY = moveY[0];
-
-                currX += moveDirX;
-                currY += moveDirY;
+                currX += moveX[0];
+                currY += moveY[0];
 
                 // 이동한 위치에 모래가 있다면 날려보내야 함
                 if (map[currX][currY] != 0) {
@@ -133,67 +130,44 @@ public class Main {
 
                 // 종료지점 만나면 그대로 종료
                 if (currX == 0 && currY == 0) return;
-
-                // System.out.println("좌 (" + currX + ", " + currY + ")");
-                // printMap(currX, currY);
             }
 
             // 2) 하
             for (int i = 0; i < moveCount; i++) {
-                int moveDirX = moveX[1];
-                int moveDirY = moveY[1];
-
-                currX += moveDirX;
-                currY += moveDirY;
+                currX += moveX[1];
+                currY += moveY[1];
 
                 // 이동한 위치에 모래가 있다면 날려보내야 함
                 if (map[currX][currY] != 0) {
                     blowSand(currX, currY, tornadoDown);
                 }
-
-                // printMap(currX, currY);
-                // System.out.println("하 (" + currX + ", " + currY + ")");
             }
 
             moveCount++;
 
             // 3) 우
             for (int i = 0; i < moveCount; i++) {
-                int moveDirX = moveX[2];
-                int moveDirY = moveY[2];
-
-                currX += moveDirX;
-                currY += moveDirY;
+                currX += moveX[2];
+                currY += moveY[2];
 
                 // 이동한 위치에 모래가 있다면 날려보내야 함
                 if (map[currX][currY] != 0) {
                     blowSand(currX, currY, tornadoRight);
                 }
-
-                // printMap(currX, currY);
-                // System.out.println("우 (" + currX + ", " + currY + ")");
             }
 
             // 4) 상
             for (int i = 0; i < moveCount; i++) {
-                int moveDirX = moveX[3];
-                int moveDirY = moveY[3];
-
-                currX += moveDirX;
-                currY += moveDirY;
+                currX += moveX[3];
+                currY += moveY[3];
 
                 // 이동한 위치에 모래가 있다면 날려보내야 함
                 if (map[currX][currY] != 0) {
                     blowSand(currX, currY, tornadoUp);
                 }
-
-                // printMap(currX, currY);
-                // System.out.println("상 (" + currX + ", " + currY + ")");
             }
 
             moveCount++;
-            if (moveCount == N - 1) break;
-
         }
     }
 
@@ -212,9 +186,8 @@ public class Main {
 
             currTotalSand -= sand;  // 날아간 모래 계산
         }
-
-        // 다 계산했으면 기준 좌표의 모래는 0으로 초기화
-        map[x][y] = 0;
+        
+        map[x][y] = 0;  // 다 계산했으면 기준 좌표의 모래는 0으로 초기화
     }
 
     // 현재 좌표와 날아간 모래들을 표기하기 위한 print
@@ -249,9 +222,9 @@ public class Main {
         }
 
         // 토네이도 이동
-        startIndex = N / 2;
-        moveTornado(startIndex);
+        moveTornado(N / 2);
 
+        // 결과값 출력
         System.out.println(totalSand);
     }
 }
