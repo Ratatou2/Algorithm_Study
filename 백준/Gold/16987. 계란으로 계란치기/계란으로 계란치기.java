@@ -71,7 +71,7 @@ public class Main {
             maxCrushCount = Math.max(maxCrushCount, count);
             return;
         }
-        
+
         // 근데 손에 들고 있는 계란이 깨져 있으면 다음 계란으로 패스 해야함
         if (eggs[index][0] <= 0) {
             DFS(index + 1);
@@ -83,7 +83,7 @@ public class Main {
 
         // 안꺠진 계란이 2, 3, 4가 있다면 2, 3, 4를 공평하게 한번씩 먼저 깨보기 위한 for문
         for (int target = 0; target < eggCount; target++) {
-            // 깨려는 계란이 본인 자신이거나, 이미 깨져있으면 패스
+            // 깨려는 계란이 본인 자신이거나, target인 계란이 이미 깨져있으면 패스
             if (index == target || eggs[target][0] <= 0) continue;
 
             isHit = true;  // 내려칠거니까 true로 변경
