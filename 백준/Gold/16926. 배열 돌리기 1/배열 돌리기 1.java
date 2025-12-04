@@ -46,8 +46,9 @@ A[4][1] → A[4][2] → A[4][3] → A[4][4] → A[4][5]
 - 이제 여기서부터 범위 한칸씩 줄여나가면서 조여가면 가장 안쪽 레이어까지 도달할 수 있다
 - 그럼 R % (각 레이어의 전체 길이) 해주면 실질적으로 몇 칸 움직여야하는지 알게됨
 - 내가 짠 레이어 구하는 초기 코드는 회전을 전-혀 고려하지 않아서 수정이 필요함..
-[보완점]
 
+[보완점]
+- Collections에 ratate 함수가 있는데 이건 얼마나 빨라질까 궁금
 */
 
 import java.io.*;
@@ -57,6 +58,7 @@ public class Main {
     static int N, M, R;
     static int[][] map;
 
+    // 현재 레이어 가져오는 함수
     static List<Integer> getLayer (int index) {
         int top = index;
         int left = index;
@@ -89,17 +91,7 @@ public class Main {
         return layerNums;
     }
 
-    static void printLayer(List<int[]> input) {
-        StringBuilder sb = new StringBuilder();
-
-        for (int[] temp : input) {
-            sb.append("(" + temp[0] + ", " + temp[1] + ") ");
-        }
-        sb.append("\n");
-
-        System.out.println(sb);
-    }
-
+    // Map 출력 함수
     static String printMap() {
         StringBuilder sb = new StringBuilder();
 
@@ -114,18 +106,24 @@ public class Main {
         return sb.toString();
     }
 
+    // 회전시키는 함수
     static List<Integer> rotate (List<Integer> input) {
         int howManyRotate = R % input.size();
 
-        for (int r = 0; r < howManyRotate; r++) {
-            int temp = input.get(0);
-            input.remove(0);
-            input.add(temp);
-        }
+        // 함수 구현
+        Collections.rotate(input, -howManyRotate);
+
+        // 직접 구현
+//        for (int r = 0; r < howManyRotate; r++) {
+//            int temp = input.get(0);
+//            input.remove(0);
+//            input.add(temp);
+//        }
 
         return input;
     }
 
+    // 회전 시킨 값을 입력하는 함수
     static void writeLayer(int index, List<Integer> input) {
         int top = index;
         int left = index;
