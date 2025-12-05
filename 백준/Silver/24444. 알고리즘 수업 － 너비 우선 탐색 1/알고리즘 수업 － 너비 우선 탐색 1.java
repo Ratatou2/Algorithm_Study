@@ -1,4 +1,5 @@
 
+
 /*
 [백준]
 24444, 알고리즘 수업 - 너비 우선 탐색 1
@@ -34,9 +35,12 @@ N개의 정점과 M개의 간선으로 구성된 무방향 그래프(undirected 
 첫째 줄부터 N개의 줄에 정수를 한 개씩 출력한다. i번째 줄에는 정점 i의 방문 순서를 출력한다. 시작 정점의 방문 순서는 1이다. 시작 정점에서 방문할 수 없는 경우 0을 출력한다.
 
 [구현방법]
-
+- 정석적인 BFS 문제
 
 [보완점]
+- BFS에서 Q에 넣을 때도 방문처리 체크하는게 좋다 (중복 제거 가능)
+- 그리고 빈 List는 굳이 sort 할 필요는 없다지만 if로 체크할 정도까진 아니다
+- 안쓰는 List면 굳이 for문 범위 다 줄 필요 없다 (인풋 받을 때도, 처음 자료구조 만들 때도)
 */
 
 import java.io.*;
@@ -51,19 +55,21 @@ public class Main {
     // BFS 방문
     static void BFS (int start) {
         Queue<Integer> q = new ArrayDeque<>();
+
+        // 시작 지점 방문 처리 및 등록하고 q에 넣기
+        isVisited[start] = true;
+        visitSequence[start] = seq++;
         q.add(start);
 
         while (!q.isEmpty()) {
             int curr = q.poll();
-            if (isVisited[curr]) continue;  // 방문한 이력이 있으면 그냥 패스 (대신 Q에선 삭제 처리)
-
-            // 방문한적 없으면 방문처리하고, 몇 번째 방문인지 기록 남긴다
-            isVisited[curr] = true;
-            visitSequence[curr] = seq++;  // 방문처리 하는 순간이 방문을 '인정'하는 순간이기 때문에 이때 순서를 기록한다
 
             // 그래프와 연결된 모든 지점 탐색
             for (int temp : graph[curr]) {
-                if (isVisited[temp]) continue;
+                if (isVisited[temp]) continue;  // 방문한 곳이면 패스
+
+                isVisited[temp] = true;  // 방문한적 없으면 방문처리
+                visitSequence[temp] = seq++;  // 방문처리 하는 순간이 방문을 '인정'하는 순간이기 때문에 이때 순서를 기록한다
                 q.add(temp);
             }
         }
@@ -84,7 +90,7 @@ public class Main {
 
         // 그래프 초기화
         graph = new ArrayList[N + 1];
-        for (int i = 0; i < N + 1; i++) {
+        for (int i = 1; i <= N; i++) {
             graph[i] = new ArrayList<>();
         }
 
@@ -100,9 +106,8 @@ public class Main {
         }
 
         // 각 리스트들에 대해 정렬
-        for (List<Integer> temp : graph) {
-            if (temp.isEmpty()) continue;
-            Collections.sort(temp);
+        for (int i = 1; i <= N; i++) {
+            Collections.sort(graph[i]);
         }
 
         BFS(R);
